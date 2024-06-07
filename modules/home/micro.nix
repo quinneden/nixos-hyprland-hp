@@ -5,10 +5,8 @@
     
     settings = {
       "colorscheme" = "catppuccin-mocha";
-      "*.nix" = {"tabsize" = 2;};
-      "*.ml"  = {"tabsize" = 2;};
       "tabstospaces" = true;
-      "tabsize" = 4;
+      "tabsize" = 2;
     };
   };
 

@@ -7,64 +7,70 @@
     syntaxHighlighting.enable = true;
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "fzf" ];
+      plugins = [ "fzf" "eza" "zsh-navigation-tools" "nix-shell" ];
     };
     initExtraFirst = ''
       DISABLE_MAGIC_FUNCTIONS=true
+      export COLORTERM="truecolor"
       export "MICRO_TRUECOLOR=1"
-    '';
+      EZA_ICON_SPACING=2
+      SCRIPTS="$HOME/.config/lazarus/modules/home/scripts/scripts"
+      TERM="xterm-256color"
+      ZSH_CUSTOM="$HOME/.config/zsh"
+      ''; # test -f $HOME/.config/zsh/completions/* && for i in $HOME/.config/completions/*; source $i || true
     shellAliases = {
-      # record = "wf-recorder --audio=alsa_output.pci-0000_08_00.6.analog-stereo.monitor -f $HOME/Videos/$(date +'%Y%m%d%H%M%S_1.mp4')";
-
-      # Utils
       c = "clear";
       cd = "z";
-      tt = "gtrash put";
-      cat = "bat";
       nano = "micro";
+      mi = "micro";
       code = "codium";
       py = "python";
       icat = "kitten icat";
       dsize = "du -hs";
       findw = "grep -rl";
-
-      l = "eza --icons  -a --group-directories-first -1"; #EZA_ICON_SPACING=2
-      ll = "eza --icons  -a --group-directories-first -1 --no-user --long";
+      surf = "sudo rm -rf";
+      fuck = "sudo rm -rf";
+      rf = "rm -rf";
+      l = "eza --icons  -a --group-directories-first";
+      la = "eza -a1 --";
+      ll = "eza --icons  -a --group-directories-first --long --git --group";
       tree = "eza --icons --tree --group-directories-first";
 
       # Nixos
-      cdnix = "cd ~/nixos-config && codium ~/nixos-config";
-      ns = "nix-shell --run zsh";
-      nix-shell = "nix-shell --run zsh";
-      nix-switch = "sudo nixos-rebuild switch --flake ~/nixos-config#${host}";
-      nix-switchu = "sudo nixos-rebuild switch --upgrade --flake ~/nixos-config#${host}";
-      nix-flake-update = "sudo nix flake update ~/nixos-config#";
+      cdnix = "cd $FLAKE_DIR";
+      scripts = "~/.config/lazarus/modules/home/scripts/scripts";
+      codenix = "cd ~/.config/lazarus && codium ~/.config/lazarus";
+      nix-switch = "sudo nixos-rebuild switch --flake ~/.config/lazarus#${host} --impure";
+      switch = "sudo nixos-rebuild switch --flake ~/.config/lazarus#${host} --impure";
+      switchup = "sudo nixos-rebuild switch --flake ~/.config/lazarus#${host} --impure";
+      nix-switchu = "sudo nixos-rebuild switch --upgrade --flake ~/.config/lazarus#${host} --impure";
+      flake-update = "sudo nix flake update ~/.config/lazarus";
       nix-clean = "sudo nix-collect-garbage && sudo nix-collect-garbage -d && sudo rm /nix/var/nix/gcroots/auto/* && nix-collect-garbage && nix-collect-garbage -d";
 
       # Git
       ga   = "git add";
       gaa  = "git add --all";
       gs   = "git status";
-      gb   = "git branch";
-      gm   = "git merge";
+      status = "git status";
       gpl  = "git pull";
       gplo = "git pull origin";
-      gps  = "git push";
-      gpst = "git push --follow-tags";
-      gpso = "git push origin";
-      gc   = "git commit";
-      gcm  = "git commit -m";
-      gcma = "git add --all && git commit -m";
+      gp = "git push";
+      gpo = "git push origin";
+      commit = "git commit --all --allow-empty-message --no-edit";
+      gc = "git commit -m";
       gtag = "git tag -ma";
       gch  = "git checkout";
       gchb = "git checkout -b";
       gcoe = "git config user.email";
       gcon = "git config user.name";
-
-      # python
-      piv = "python -m venv .venv";
-      psv = "source .venv/bin/activate";
     };
+
+    # plugins = [
+    # {
+    #   name = "";
+    #   file = "share/zsh/$[PLUGIN]/$[PLUGIN].zsh";
+    #   src = pkgs.$[PLUGIN];
+    # }];
   };
 
   programs.zoxide = {
